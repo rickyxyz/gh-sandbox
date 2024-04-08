@@ -24,3 +24,8 @@ jobs:
                 }
             }
           }' -f login=${{ inputs.username }} -F number=$PROJECT_NUMBER > project_data.json
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: project_data
+          path: project_data.json
