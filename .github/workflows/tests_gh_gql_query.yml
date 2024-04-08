@@ -3,8 +3,8 @@ on:
   workflow_dispatch:
     inputs:
       username:
-        required: true
         type: string
+        required: true
 
 jobs:
   echo-result:
@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Get project data
         env:
-          USERNAME: ${{ inputs.username }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           PROJECT_NUMBER: 13
         run: |
           gh api graphql -f query='
@@ -23,4 +23,4 @@ jobs:
                     title
                 }
             }
-          }' -f login=$USERNAME -F number=$PROJECT_NUMBER > project_data.json
+          }' -f login=${{ inputs.username }} -F number=$PROJECT_NUMBER > project_data.json
