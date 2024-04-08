@@ -1,0 +1,51 @@
+name: Add PR to Project
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  echo-result:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add PR to project
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          PR_ID: ${{ github.event.pull_request.node_id }}
+          PROJECT_ID: ${{ vars.PROJECT_ID }}
+        run: |
+          item_id="$( gh api graphql -f query='
+            mutation($project:ID!, $pr:ID!) {
+              addProjectV2ItemById(input: {projectId: $project, contentId: $pr}) {
+                item {
+                  id
+                }
+              }
+            }' -f project=$PROJECT_ID -f pr=$PR_ID --jq '.data.addProjectV2ItemById.item.id')"
+          echo 'ITEM_ID='$item_id >> $GITHUB_ENV
+      - name: Get date
+        run: echo "DATE=$(date +"%Y-%m-%d")" >> $GITHUB_ENV
+      - name: Set fields
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          gh api graphql -f query='
+            mutation (
+              $project: ID!
+              $item: ID!
+              $date_field: ID!
+              $date_value: Date!
+            ) {
+              set_date_posted: updateProjectV2ItemFieldValue(input: {
+                projectId: $project
+                itemId: $item
+                fieldId: $date_field
+                value: {
+                  date: $date_value
+                }
+              }) {
+                projectV2Item {
+                  id
+                }
+              }
+            }' -f project=$PROJECT_ID -f item=$ITEM_ID -f date_field=$DATE_FIELD_ID -f date_value=$DATE --silent
