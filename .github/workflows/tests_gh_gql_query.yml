@@ -1,0 +1,22 @@
+name: Github GraphQL Queries
+on:
+  workflow_dispatch:
+
+jobs:
+  echo-result:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get project data
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          PROJECT_NUMBER: 13
+        run: |
+          gh api graphql -f query='
+          query Organization($login: String!, $number: Int!) {
+            user(login: $login) {
+                projectV2(number: $number) {
+                    id,
+                    title
+                }
+            }
+          }' -f login=$GH_TOKEN -F number=$PROJECT_NUMBER > project_data.json
