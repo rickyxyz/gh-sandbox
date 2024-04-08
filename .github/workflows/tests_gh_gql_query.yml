@@ -1,6 +1,10 @@
 name: Github GraphQL Queries
 on:
   workflow_dispatch:
+    inputs:
+      username:
+        required: true
+        type: string
 
 jobs:
   echo-result:
@@ -8,7 +12,7 @@ jobs:
     steps:
       - name: Get project data
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          USERNAME: ${{ inputs.username }}
           PROJECT_NUMBER: 13
         run: |
           gh api graphql -f query='
@@ -19,4 +23,4 @@ jobs:
                     title
                 }
             }
-          }' -f login=$GH_TOKEN -F number=$PROJECT_NUMBER > project_data.json
+          }' -f login=$USERNAME -F number=$PROJECT_NUMBER > project_data.json
