@@ -5,7 +5,7 @@ on:
       - main
 
 jobs:
-  echo-result:
+  add-pr-to-project:
     runs-on: ubuntu-latest
     steps:
       - name: Add PR to project
