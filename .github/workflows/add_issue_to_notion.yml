@@ -11,12 +11,12 @@ jobs:
         run: |
           touch var.json &&
           echo '[' >> var.json &&
-          for label in "${{ github.event.issue.labels }}"; do
+          for label in "Array"; do
             echo $label | sed 's/.*/{"name": "&"}/' >> var.json
           done &&
           echo ']' >> var.json &&
           cat var.json &&
-          echo "ISSUE_LABEL=$(cat var.json)" >> $GITHUB_ENV &&
+          echo "ISSUE_LABEL=$(<var.json)" >> $GITHUB_ENV &&
           echo $ISSUE_LABEL
       - name:
         env:
