@@ -13,14 +13,8 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - name: Print label name
         env:
-          ISSUE_CONTEXT: ${{ toJson(github.event.issue) }}
-        run: |
-          echo "DEBUG"
-          echo "${{ toJson(github.event.issue) }}"
-          for label_object in ${echo "${{ toJson(github.event.issue) }}" | jq -r '.labels'}; do
-            label_name=$(echo "$label_object" | jq -r ".name")
-            echo $label_name
-          done
+          LABEL_ARRAYS: ${{ echo "github.event.issue" | jq -r '.labels' }}
+        run: echo "$label_arrays" | jq -c '.[] | {name: .name}' | jq -n '[inputs]'
       - name: Set env
         run: |
           for label in "${{ github.event.issue.labels }}"; do
