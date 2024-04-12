@@ -10,4 +10,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
-        run: echo ${{ toJson(github) }}
+        run: echo /repos/${{ github.repository }}/issues
