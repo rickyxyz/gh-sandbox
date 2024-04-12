@@ -1,0 +1,13 @@
+name: Post Existing Issues to Notion
+on:
+  workflow_dispatch:
+
+jobs:
+  post-existing-issues-to-notion:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post existing issues to Notion
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+        run: echo ${{ toJson(github) }}
