@@ -11,7 +11,7 @@ jobs:
         run: |
           touch var.json &&
           echo '[' >> var.json &&
-          for label in "Array"; do
+          for label in ${{ github.event.issue.labels }}; do
             echo $label | sed 's/.*/{"name": "&"}/' >> var.json
           done &&
           echo ']' >> var.json &&
