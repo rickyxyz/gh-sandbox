@@ -7,9 +7,10 @@ jobs:
   add-issue-to-notion:
     runs-on: ubuntu-latest
     steps:
-      - name: print event
-        run: |
-          echo $${{ github.event.issue }}
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: Set env
         run: |
           for label in "${{ github.event.issue.labels }}"; do
