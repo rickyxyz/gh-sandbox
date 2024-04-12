@@ -9,8 +9,8 @@ jobs:
     steps:
       - name: Set env
         run: |
-          for label in "${{ github.event.issue.labels }}""; do
-            echo $label | sed 's/.*/{"name": "&"}/'
+          for label in "${{ github.event.issue.labels }}"; do
+            echo $label
           done
       - name:
         env:
