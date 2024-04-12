@@ -7,8 +7,10 @@ jobs:
   add-issue-to-notion:
     runs-on: ubuntu-latest
     steps:
+      - name: Print labels
+        run: echo ${{ github.event.issue.labels }}
       - name: Set env
-        run: echo ISSUE_LABEL=${{ github.event.issue.labels }} | sed 's/\([^,]*\)/{"name":"\1"}/g' | tr '\n' ',' | sed 's/,$//' | sed 's/^/[/' | sed 's/$/]/' >> $GITHUB_ENV
+        run: echo "ISSUE_LABEL=$(echo ${{ github.event.issue.labels }} | sed 's/[^,]*/{"name":"&"}/g' | tr '\n' ',' | sed 's/,$//' | sed 's/^/[/' | sed 's/$/]/')" >> $GITHUB_ENV
       - name: Check env
         run: echo $ISSUE_LABEL
       - name:
