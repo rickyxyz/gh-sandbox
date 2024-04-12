@@ -11,10 +11,15 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
-      - name: Dump Label context
+      - name: Print label name
         env:
-          LABEL_CONTEXT: ${{ toJson(github.event.issue.labels) }}
-        run: echo "$LABEL_CONTEXT"
+          ISSUE_CONTEXT: ${{ toJson(github.event.issue) }}
+        run: |
+          for label_object in ${echo "$LABEL_CONTEXT" | jq -r '.labels'}; do
+            echo $label_object
+            label_name=$(echo "$label_object" | jq -r ".name")
+            echo $label_name
+          done
       - name: Set env
         run: |
           for label in "${{ github.event.issue.labels }}"; do
