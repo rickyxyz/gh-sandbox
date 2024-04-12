@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: print event
         run: |
-          echo ${{ github.event.issue }}
+          echo $${{ github.event.issue }}
       - name: Set env
         run: |
           for label in "${{ github.event.issue.labels }}"; do
