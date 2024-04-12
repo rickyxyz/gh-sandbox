@@ -13,8 +13,9 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - name: Print label name
         env:
-          LABEL_ARRAYS: ${{ echo "github.event.issue" | jq -r '.labels' }}
-        run: echo "$label_arrays" | jq -c '.[] | {name: .name}' | jq -n '[inputs]'
+          LABEL_ARRAYS: ${{ toJson(github.event.issue.labels) }}
+        run: |
+          echo "$LABEL_ARRAYS" | jq -c ".[] | {name: .name}" | jq -n "[inputs]"
       - name: Set env
         run: |
           for label in "${{ github.event.issue.labels }}"; do
