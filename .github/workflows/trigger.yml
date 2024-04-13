@@ -1,0 +1,11 @@
+name: Trigger
+on:
+  issues:
+    types: opened
+
+jobs:
+  trigger-webhook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo
+        run: echo 'a'
