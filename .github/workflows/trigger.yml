@@ -1,0 +1,10 @@
+name: Trigger
+on:
+  workflow_dispatch:
+
+jobs:
+  trigger-webhook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo
+        run: echo 'a'
