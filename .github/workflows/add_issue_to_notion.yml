@@ -26,7 +26,8 @@ jobs:
               "title": [
                 {
                   "text": {
-                    "content": "${{ github.event.issue.title }}"
+                    "content": "${{ github.event.issue.title }}",
+                    "link": "${{ github.event.issue.url }}"
                   }
                 }
               ],
